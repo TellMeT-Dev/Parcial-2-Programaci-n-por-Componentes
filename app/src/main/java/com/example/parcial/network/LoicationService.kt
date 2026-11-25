@@ -13,4 +13,10 @@ class LoicationService {
         @GET("health")
         fun getHealth(): String
     }
+
+    object ParcialAPI{
+        val retrofitService : ParcialAPIServide by Lazy (){
+            retrofit.create(ParcialAPIServide::class.java)
+        }
+    }
 }
