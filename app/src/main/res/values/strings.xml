@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Parcial</string>
+    <string name="title_home">Mis Viajes</string>
+    <string name="subtitle_home">Hecha un vistazo a los procimos viajes</string>
 </resources>
