@@ -53,6 +53,7 @@ class MainActivity : ComponentActivity() {
                             }
                             TypeScreen.ADD -> {
                                 AddPlacesScreen(
+                                    idTrip = "123",
                                     onClickSave = {
                                         name, description, city, tentativeDate ->
 

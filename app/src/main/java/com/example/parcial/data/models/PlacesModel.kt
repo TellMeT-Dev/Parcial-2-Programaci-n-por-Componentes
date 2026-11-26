@@ -5,6 +5,5 @@ data class PlacesModel(
     val name: String,
     val description: String,
     val city: String,
-    val categoryId: CategoryModel,
     val tentativeDate: String,
 )
