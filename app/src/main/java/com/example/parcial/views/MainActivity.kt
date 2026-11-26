@@ -17,10 +17,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.parcial.data.enums.TypeScreen
 import com.example.parcial.data.models.PlacesModel
+import com.example.parcial.data.models.TripModel
 import com.example.parcial.viewmodels.PlacesViewModel
 import com.example.parcial.viewmodels.TripViewModel
 import com.example.parcial.views.screens.AddPlacesScreen
+import com.example.parcial.views.screens.AddTripScreen
 import com.example.parcial.views.screens.HomeScreen
+import com.example.parcial.views.screens.TripDetailScreen
 import com.example.parcial.views.theme.ParcialTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,6 +34,7 @@ class MainActivity : ComponentActivity() {
             ParcialTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     var currentScreen by remember { mutableStateOf(TypeScreen.HOME) }
+                    var selectedTripId by remember { mutableStateOf("") }
 
                     val tripViewModel: TripViewModel by viewModels()
                     val tripModel by tripViewModel.model.collectAsState()
@@ -44,26 +48,55 @@ class MainActivity : ComponentActivity() {
                                 HomeScreen(
                                     trips = tripModel,
                                     onClickAdd = {
-                                        currentScreen = TypeScreen.ADD
+                                        currentScreen = TypeScreen.ADD_TRIP
                                     },
                                     onClickAbout = { id ->
-
+                                        selectedTripId = id
+                                        currentScreen = TypeScreen.DETAIL
                                     }
                                 )
                             }
+                            TypeScreen.ADD_TRIP -> {
+                                AddTripScreen(
+                                    onClickSave = { nameTrip, destination, startDate, endDate ->
+                                        val newTrip = TripModel(
+                                            id = tripViewModel.randomCode(),
+                                            nameTrip = nameTrip,
+                                            destination = destination,
+                                            startDate = startDate,
+                                            endDate = endDate,
+                                            createdAt = ""
+                                        )
+                                        tripViewModel.addTrip(newTrip)
+                                        currentScreen = TypeScreen.HOME
+                                    }
+                                )
+                            }
+                            TypeScreen.DETAIL -> {
+                                val trip = tripModel.firstOrNull { it?.id == selectedTripId }
+                                if (trip != null) {
+                                    TripDetailScreen(
+                                        trip = trip,
+                                        places = placesModel.filter { it?.tripId == selectedTripId },
+                                        onClickAdd = {
+                                            currentScreen = TypeScreen.ADD
+                                        }
+                                    )
+                                }
+                            }
                             TypeScreen.ADD -> {
                                 AddPlacesScreen(
-                                    idTrip = "123",
-                                    onClickSave = {
-                                        name, description, city, tentativeDate ->
-
-                                        val newTrip = PlacesModel(
-                                            tripId = tripViewModel.randomCode(),
+                                    idTrip = selectedTripId,
+                                    onClickSave = { name, description, city, tentativeDate ->
+                                        val newPlace = PlacesModel(
+                                            tripId = selectedTripId,
                                             name = name,
                                             description = description,
                                             city = city,
                                             tentativeDate = tentativeDate
                                         )
+                                        placesViewModel.addPlace(newPlace)
+                                        currentScreen = TypeScreen.DETAIL
                                     }
                                 )
                             }
@@ -71,7 +104,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-
         }
     }
 }

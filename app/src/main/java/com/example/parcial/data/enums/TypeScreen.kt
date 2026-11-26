@@ -2,5 +2,7 @@ package com.example.parcial.data.enums
 
 enum class TypeScreen {
     HOME,
-    ADD
+    ADD,
+    ADD_TRIP,
+    DETAIL
 }

@@ -14,9 +14,12 @@ class TripViewModel: ViewModel() {
 
     val model: StateFlow<List<TripModel?>> = _model.asStateFlow()
 
-
     fun randomCode(): String {
         val chars = alphabet
         return (1..6).map { chars.random() }.joinToString("")
+    }
+
+    fun addTrip(trip: TripModel) {
+        _model.value = _model.value + trip
     }
 }

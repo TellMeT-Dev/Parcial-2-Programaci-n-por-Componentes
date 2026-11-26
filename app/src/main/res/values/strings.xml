@@ -4,9 +4,13 @@
     <string name="subtitle_home">Hecha un vistazo a los proximos viajes</string>
     <string name="add_button_home">Añadir Viaje</string>
     <string name="select_button_home">Añadir Viaje</string>
+    <string name="detail_button_home">Detalles</string>
     <string name="name_label_add">Ingrese Nombre del Viaje</string>
     <string name="description_label_add">Ingrese Descripcion</string>
     <string name="city_label_add">Añadir Viaje</string>
     <string name="start_label_add">Fecha de Inicio</string>
     <string name="end_label_add">Fecha de Vuelta</string>
+    <string name="destination_label_add">Ingrese Destino</string>
+    <string name="places_title">Lugares a visitar</string>
+    <string name="add_place_button">Añadir Lugar</string>
 </resources>
