@@ -37,8 +37,8 @@ import com.example.parcial.viewmodels.TripViewModel
 @Composable
 fun HomeScreen(
     trips: List<TripModel?>,
-    onClickGame: () -> Unit,
-    onClickMultiplayer: () -> Unit = {}
+    onClickAdd: () -> Unit,
+    onClickAbout: (id: String) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -71,79 +71,68 @@ fun HomeScreen(
                     fontSize = 15.sp
                 )
             }
-            for (trip in trips){
-                if(trip != null) {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White.copy(alpha = 0.08f)
-                        ),
-                        shape = RoundedCornerShape(24.dp),
-                        elevation = CardDefaults.cardElevation(8.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(24.dp)
+            Column(
+
+            ) {
+                for (trip in trips) {
+                    if (trip != null) {
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White.copy(alpha = 0.08f)
+                            ),
+                            shape = RoundedCornerShape(24.dp),
+                            elevation = CardDefaults.cardElevation(8.dp),
                         ) {
-                            Text(
-                                text = trip.nameTrip,
-                                color = Color.White,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-
-                            Spacer(modifier = Modifier.height(12.dp))
-
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(24.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
-                                    text = trip.destination,
-                                    color = Color.White.copy(alpha = 0.6f),
-                                    fontSize = 12.sp,
+                                    text = trip.nameTrip,
+                                    color = Color.White,
+                                    fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold
                                 )
+
+                                Spacer(modifier = Modifier.height(12.dp))
+
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = trip.destination,
+                                        color = Color.White.copy(alpha = 0.6f),
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.height(12.dp))
+
+                                Button(
+                                    onClick = {onClickAbout(trip.id)},
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color(0xFF00AEFF),
+                                        disabledContainerColor = Color(0xFF00AEFF).copy(alpha = 0.3f)
+                                    )
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.select_button_home),
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White
+                                    )
+                                }
                             }
+
+
                         }
-                    }
-                }
-            }
 
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White.copy(alpha = 0.08f)
-                ),
-                shape = RoundedCornerShape(24.dp),
-                elevation = CardDefaults.cardElevation(8.dp)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "ESTADÍSTICAS",
-                        color = Color.White.copy(alpha = 0.6f),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "stringResource(R.string.home_score)",
-                            color = Color.White,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        Spacer(modifier = Modifier.height(24.dp))
                     }
                 }
             }
@@ -153,7 +142,7 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Button(
-                    onClick = onClickGame,
+                    onClick = onClickAdd,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp)
@@ -164,26 +153,7 @@ fun HomeScreen(
                     )
                 ) {
                     Text(
-                        text = "stringResource(R.string.home_btn_play)",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                }
-
-                Button(
-                    onClick = onClickMultiplayer,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .shadow(8.dp, RoundedCornerShape(18.dp)),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFFF9800)
-                    )
-                ) {
-                    Text(
-                        text = "MULTIPLAYER",
+                        text = stringResource(R.string.add_button_home),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
@@ -192,7 +162,7 @@ fun HomeScreen(
             }
 
             Text(
-                text = "Components 301 • 2026 • Hockey Game",
+                text = "Components 301 • 2026 • Parcial 2",
                 color = Color.White.copy(alpha = 0.5f),
                 style = MaterialTheme.typography.bodySmall
             )
@@ -203,5 +173,23 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(trips = emptyList(), onClickGame = {}, onClickMultiplayer = {})
+    val tripsEjemplo = listOf(
+        TripModel(
+            id = "1",
+            nameTrip = "Loquenderos de Corazon",
+            destination = "Loquendo City",
+            startDate = "Hoy",
+            endDate = "Ayer",
+            createdAt = "Mañana"
+        ),
+        TripModel(
+            id = "2",
+            nameTrip = "La tierra de los papus",
+            destination = "Papulandia",
+            startDate = "Yo no se Mañana",
+            endDate = "Si estaremos juntos",
+            createdAt = "Si se acaba el mundo"
+        )
+    )
+    HomeScreen(trips = tripsEjemplo, onClickAdd = {}, onClickAbout = {id->"123"})
 }

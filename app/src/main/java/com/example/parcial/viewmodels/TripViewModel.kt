@@ -8,8 +8,15 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class TripViewModel: ViewModel() {
 
+    val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
     private val _model = MutableStateFlow<List<TripModel?>>(emptyList())
 
     val model: StateFlow<List<TripModel?>> = _model.asStateFlow()
 
+
+    fun randomCode(): String {
+        val chars = alphabet
+        return (1..6).map { chars.random() }.joinToString("")
+    }
 }

@@ -1,4 +1,12 @@
 <resources>
     <string name="title_home">Mis Viajes</string>
-    <string name="subtitle_home">Hecha un vistazo a los procimos viajes</string>
+    <string name="app_name">Parcial 2</string>
+    <string name="subtitle_home">Hecha un vistazo a los proximos viajes</string>
+    <string name="add_button_home">Añadir Viaje</string>
+    <string name="select_button_home">Añadir Viaje</string>
+    <string name="name_label_add">Ingrese Nombre del Viaje</string>
+    <string name="description_label_add">Ingrese Descripcion</string>
+    <string name="city_label_add">Añadir Viaje</string>
+    <string name="start_label_add">Fecha de Inicio</string>
+    <string name="end_label_add">Fecha de Vuelta</string>
 </resources>

@@ -16,7 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.parcial.data.enums.TypeScreen
+import com.example.parcial.data.models.PlacesModel
+import com.example.parcial.viewmodels.PlacesViewModel
 import com.example.parcial.viewmodels.TripViewModel
+import com.example.parcial.views.screens.AddPlacesScreen
 import com.example.parcial.views.screens.HomeScreen
 import com.example.parcial.views.theme.ParcialTheme
 
@@ -30,16 +33,36 @@ class MainActivity : ComponentActivity() {
                     var currentScreen by remember { mutableStateOf(TypeScreen.HOME) }
 
                     val tripViewModel: TripViewModel by viewModels()
-                    val model by tripViewModel.model.collectAsState()
+                    val tripModel by tripViewModel.model.collectAsState()
+
+                    val placesViewModel: PlacesViewModel by viewModels()
+                    val placesModel by placesViewModel.model.collectAsState()
 
                     Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
                         when (currentScreen) {
                             TypeScreen.HOME -> {
                                 HomeScreen(
-                                    trips = model,
-                                    onClickGame = {
+                                    trips = tripModel,
+                                    onClickAdd = {
+                                        currentScreen = TypeScreen.ADD
                                     },
-                                    onClickMultiplayer = {
+                                    onClickAbout = { id ->
+
+                                    }
+                                )
+                            }
+                            TypeScreen.ADD -> {
+                                AddPlacesScreen(
+                                    onClickSave = {
+                                        name, description, city, tentativeDate ->
+
+                                        val newTrip = PlacesModel(
+                                            tripId = tripViewModel.randomCode(),
+                                            name = name,
+                                            description = description,
+                                            city = city,
+                                            tentativeDate = tentativeDate
+                                        )
                                     }
                                 )
                             }
